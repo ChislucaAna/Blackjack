@@ -2,7 +2,7 @@ print("Welcome to blackjack")
 
 print("To start a new game use /new")
 print("To add another card to your deck use /add")
-print("To show current deck state use /deck")
+print("To show current hand state use /hand")
 print("To show current sum of card values in your deck use /sum")
 print("To check for win use /check")
 print("To exit program write /quit")
@@ -65,11 +65,26 @@ while not Quit do
             card= Deck[Cards[i]][Colors[j]]
         until card ==1
         card=card-1 --delete card from deck
-        table.insert(Hand,Cards[i].." of "..Colors[j])
-        print(Hand[1])
-    elseif s=="/deck" then
-        for c in pairs (Deck) do
-            print(Deck[c])
+        table.insert(Hand,Cards[i].." of "..Colors[j]) --concatenates strings
+    elseif s=="/hand" then
+        for c in pairs (Hand) do
+            print(Hand[c])
         end
+    elseif s=="/sum" then
+        local s1=0; local s11=0 --if the deck contains an ace, we will have 2 different sums
+        for c in pairs (Hand) do
+            if(string.find(Hand[c],"Ace")~=nil) then --negation of equality
+                s1=s1+1
+                s11=s11+11
+            else 
+                local card_contents =string.match(Hand[c],"%S+")
+                s1 = s1+ N[card_contents]
+                s11 = s11 + N[card_contents]
+            end
+        end
+        print(s1)
+        if(s1~=s11) then print(s11) end
+    elseif s=="/quit" then
+        Quit=true
     end
 end
